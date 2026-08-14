@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -22,6 +22,8 @@ export default function SignInPage() {
     resolver: zodResolver(loginSchema),
   })
 
+  const [signInAttempted, setSignInAttempted] = useState(false)
+
   useEffect(() => {
     if (!loading && user) {
       router.replace('/dashboard')
@@ -38,6 +40,7 @@ export default function SignInPage() {
   if (loading) return <FullPageSpinner />
 
   const onSubmit = async (data: LoginInput) => {
+    setSignInAttempted(true)
     try {
       await signInWithEmail(data.email, data.password)
       toast.success('Signed in successfully')
@@ -63,15 +66,15 @@ export default function SignInPage() {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-1 text-center">
-        <h1 className="text-2xl font-bold tracking-tight">Sign in</h1>
-        <p className="text-sm text-zinc-500">Enter your credentials to continue</p>
+      <div className="space-y-1 text-left">
+        <h1 className="text-2xl font-bold tracking-tight text-[#292D68]">Welcome back</h1>
+        <p className="text-sm text-zinc-500">Sign in to view your team</p>
       </div>
 
       <button
         type="button"
         onClick={handleGoogleSignIn}
-        className="flex w-full items-center justify-center gap-3 rounded-md border border-zinc-300 bg-white px-4 py-2.5 text-sm font-medium shadow-sm transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+        className="hidden flex w-full items-center justify-center gap-3 rounded-md border border-zinc-300 bg-white px-4 py-2.5 text-sm font-medium shadow-sm transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:bg-zinc-800"
       >
         <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
           <path
@@ -94,7 +97,7 @@ export default function SignInPage() {
         Continue with Google
       </button>
 
-      <div className="relative">
+      <div className="hidden relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t border-zinc-200 dark:border-zinc-700" />
         </div>
@@ -105,8 +108,8 @@ export default function SignInPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1.5">
-          <label htmlFor="email" className="text-sm font-medium">
-            Email
+          <label htmlFor="email" className="text-sm font-medium font-bold text-[#292D68]">
+            Username
           </label>
           <input
             id="email"
@@ -127,7 +130,7 @@ export default function SignInPage() {
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label htmlFor="password" className="text-sm font-medium">
+            <label htmlFor="password" className="text-sm font-medium font-bold text-[#292D68]">
               Password
             </label>
           </div>
@@ -150,22 +153,24 @@ export default function SignInPage() {
 
         <button
           type="submit"
+          onClick={() => setSignInAttempted(true)}
           disabled={isSubmitting}
-          className="w-full rounded-md bg-black px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+          className="w-full rounded-md bg-[#222468] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#1a1a4d] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
 
-      <p className="text-center text-sm text-zinc-500">
-        Don&apos;t have an account?{' '}
-        <Link
-          href="/auth/signup"
-          className="font-medium text-zinc-900 hover:underline dark:text-white"
-        >
-          Create one
-        </Link>
-      </p>
+      {signInAttempted && (
+        <p className="text-center text-sm text-zinc-500">
+          <Link
+            href="/auth/signup"
+            className="font-medium text-[#222468] hover:underline"
+          >
+            Don&apos;t have an account?
+          </Link>
+        </p>
+      )}
     </div>
   )
 }
