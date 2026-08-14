@@ -1,0 +1,498 @@
+<title>Bootstrap Restyle Mockup</title>
+<style>
+  :root {
+    --ink: #1b1d3f;
+    --brand: #292d68;
+    --brand-deep: #1f2252;
+    --brand-soft: #e4e5f5;
+    --paper: #f6f5fa;
+    --paper-raised: #ffffff;
+    --line: #e2e1ee;
+    --muted: #6b6c87;
+    --flag: #b8720c;
+    --flag-bg: #fbf1dd;
+    --flag-line: #ecd6a4;
+    --good: #2f7a4f;
+    --good-bg: #e7f4ec;
+
+    --display: -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --body: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+    --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #ededf7;
+      --brand: #9296e6;
+      --brand-deep: #b0b3ec;
+      --brand-soft: #262a52;
+      --paper: #131427;
+      --paper-raised: #1c1e3c;
+      --line: #33355c;
+      --muted: #9c9dc4;
+      --flag: #e3a83d;
+      --flag-bg: #362a13;
+      --flag-line: #55411c;
+      --good: #6dbf8e;
+      --good-bg: #16311f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ededf7;
+    --brand: #9296e6;
+    --brand-deep: #b0b3ec;
+    --brand-soft: #262a52;
+    --paper: #131427;
+    --paper-raised: #1c1e3c;
+    --line: #33355c;
+    --muted: #9c9dc4;
+    --flag: #e3a83d;
+    --flag-bg: #362a13;
+    --flag-line: #55411c;
+    --good: #6dbf8e;
+    --good-bg: #16311f;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .display {
+    font-family: var(--display);
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .mono { font-family: var(--mono); }
+
+  .page {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 6rem;
+  }
+
+  /* ── Header ─────────────────────────────────────────── */
+  header.top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 3rem;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--brand);
+    font-weight: 600;
+  }
+  header.top h1 {
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: var(--ink);
+  }
+  header.top p.sub {
+    font-family: var(--body);
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 0;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .meta-row strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Tags ───────────────────────────────────────────── */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.22rem 0.55rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+  }
+  .tag.built { color: var(--good); background: var(--good-bg); border-color: color-mix(in srgb, var(--good) 35%, transparent); }
+  .tag.proposed { color: var(--flag); background: var(--flag-bg); border-color: var(--flag-line); }
+
+  /* ── Section scaffolding ────────────────────────────── */
+  section { margin-bottom: 3.5rem; }
+  section > h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+  }
+  section > p.lead {
+    color: var(--muted);
+    font-size: 0.96rem;
+    max-width: 68ch;
+    margin: 0 0 1.5rem;
+  }
+
+  /* ── Token strip ────────────────────────────────────── */
+  .tokens {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .token {
+    background: var(--paper-raised);
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .swatch { width: 100%; height: 34px; border-radius: 6px; border: 1px solid var(--line); }
+  .token .label { font-size: 0.78rem; color: var(--ink); font-weight: 600; }
+  .token .hex { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+  .type-sample {
+    background: var(--paper-raised);
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+  .type-sample .role { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .type-sample .sample-display { font-family: var(--display); font-size: 1.15rem; font-weight: 700; }
+  .type-sample .sample-body { font-family: var(--body); font-size: 1rem; }
+  .type-sample .sample-mono { font-family: var(--mono); font-size: 0.85rem; }
+
+  /* ── Mockup frames ──────────────────────────────────── */
+  .frames {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.75rem;
+    align-items: start;
+  }
+  .frame {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .frame .frame-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .frame .frame-body { padding: 2.25rem 1.75rem; }
+
+  /* login mock */
+  .login-mock { max-width: 340px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.3rem; }
+  .login-mock h3 { font-size: 1.5rem; font-weight: 700; color: var(--brand); font-family: var(--display); }
+  .login-mock .sub { color: var(--muted); font-size: 0.9rem; font-family: var(--body); margin-top: 0.2rem; }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field label { font-size: 0.82rem; font-weight: 700; color: var(--brand); font-family: var(--display); }
+  .field .input-mock {
+    height: 2.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .btn-mock {
+    height: 2.6rem;
+    border-radius: 6px;
+    background: var(--brand);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-family: var(--display);
+    font-size: 0.92rem;
+  }
+  .link-note {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-family: var(--body);
+  }
+
+  /* team mock */
+  .team-mock h3 { font-size: 1.5rem; font-weight: 700; font-family: var(--display); color: var(--ink); }
+  .team-mock .sub { color: var(--muted); font-size: 0.9rem; font-family: var(--body); margin: 0.2rem 0 1.3rem; }
+  .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+  .member-card {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.1rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.3rem;
+  }
+  .avatar {
+    width: 52px; height: 52px; border-radius: 999px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 700; font-size: 0.95rem;
+    border: 2px solid var(--line);
+  }
+  .member-card h4 { font-family: var(--display); font-size: 0.9rem; font-weight: 700; margin: 0.35rem 0 0; }
+  .member-card .role { font-size: 0.74rem; color: var(--muted); font-family: var(--body); }
+  .member-card .bio-pending { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-top: 0.3rem; font-family: var(--body); }
+
+  /* ── Edge case gallery ──────────────────────────────── */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
+  }
+  .gallery-item { display: flex; flex-direction: column; gap: 0.6rem; }
+  .gallery-item .gallery-label {
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+  }
+  .card-lg {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.4rem 1.1rem;
+    background: var(--paper-raised);
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 0.4rem;
+    min-height: 210px;
+    position: relative;
+  }
+  .card-lg.proposed { border: 1.5px dashed var(--flag); }
+  .avatar-lg {
+    width: 74px; height: 74px; border-radius: 999px;
+    background: var(--brand-soft); color: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 700; font-size: 1.4rem;
+    border: 2px solid var(--line);
+  }
+  .avatar-lg.empty {
+    background: var(--paper);
+    color: var(--muted);
+    border-style: dashed;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  .card-lg h4 { font-family: var(--display); font-size: 1rem; font-weight: 700; margin: 0.4rem 0 0; }
+  .card-lg .role { font-size: 0.78rem; color: var(--muted); font-family: var(--body); }
+  .card-lg .blurb { font-size: 0.82rem; color: var(--muted); font-family: var(--body); line-height: 1.5; }
+  .card-lg .blurb.clamped {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+  }
+  .more-link { font-size: 0.78rem; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; font-family: var(--body); }
+
+  /* ── Findings list ──────────────────────────────────── */
+  .findings { display: flex; flex-direction: column; gap: 1rem; }
+  .finding {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--paper-raised);
+  }
+  .finding .tag { align-self: start; }
+  .finding h4 { font-family: var(--display); font-size: 0.95rem; font-weight: 700; margin: 0 0 0.3rem; }
+  .finding p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+  footer.cta {
+    border-top: 1px solid var(--line);
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  footer.cta h2 { font-size: 1rem; font-weight: 700; }
+  footer.cta p { color: var(--muted); font-size: 0.92rem; max-width: 64ch; margin: 0; }
+  footer.cta .checklist { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; font-family: var(--mono); font-size: 0.82rem; }
+  footer.cta .checklist span { color: var(--ink); }
+
+  @media (max-width: 640px) {
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="top">
+    <span class="eyebrow">Bootstrap Restyling — UX handoff</span>
+    <h1>Sign-in &amp; team page mockup</h1>
+    <p class="sub">
+      Wireframe reference for the restyled sign-in screen and the team page, built against
+      what's already live in <span class="mono">feature/restyleSignIn</span> plus two proposed
+      additions this review surfaced: a missing-photo state and two copy findings.
+    </p>
+    <div class="meta-row">
+      <span>Prepared by <strong>Michael Fajardo</strong>, UX</span>
+      <span>For <strong>Kareem Khleifat</strong>, BA validation</span>
+      <span>Card: <strong>Design Login Style &amp; Team Page Layout</strong></span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Design tokens</h2>
+    <p class="lead">Carried over from the existing implementation, not reinvented — the navy already in code (<span class="mono">#292D68</span> / <span class="mono">#222468</span>) is kept as the one accent; everything else is a neutral tuned to sit quietly beside it.</p>
+    <div class="tokens">
+      <div class="token"><div class="swatch" style="background:#292d68"></div><span class="label">Brand navy</span><span class="hex">#292D68</span></div>
+      <div class="token"><div class="swatch" style="background:#1f2252"></div><span class="label">Brand deep (hover)</span><span class="hex">#1F2252</span></div>
+      <div class="token"><div class="swatch" style="background:#e4e5f5"></div><span class="label">Brand soft</span><span class="hex">#E4E5F5</span></div>
+      <div class="token"><div class="swatch" style="background:#f6f5fa; border:1px solid #e2e1ee"></div><span class="label">Paper</span><span class="hex">#F6F5FA</span></div>
+      <div class="token"><div class="swatch" style="background:#6b6c87"></div><span class="label">Muted text</span><span class="hex">#6B6C87</span></div>
+      <div class="token"><div class="swatch" style="background:#b8720c"></div><span class="label">Proposed-flag</span><span class="hex">#B8720C</span></div>
+      <div class="type-sample"><span class="role">Display</span><span class="sample-display">Welcome back</span></div>
+      <div class="type-sample"><span class="role">Body</span><span class="sample-body">Sign in to view your team</span></div>
+      <div class="type-sample"><span class="role">Spec / mono</span><span class="sample-mono">3-line clamp · 140 char</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Screens <span class="tag built" style="margin-left:0.5rem;">Already built</span></h2>
+    <p class="lead">Reconstructed from the live sign-in and team pages so this doc reflects what a BA/dev review actually needs to check against — not a from-scratch guess.</p>
+    <div class="frames">
+      <div class="frame">
+        <div class="frame-head"><span>/auth/signin</span><span>340px card</span></div>
+        <div class="frame-body">
+          <div class="login-mock">
+            <div>
+              <h3>Welcome back</h3>
+              <p class="sub">Sign in to view your team</p>
+            </div>
+            <div class="field"><label>Username</label><div class="input-mock"></div></div>
+            <div class="field"><label>Password</label><div class="input-mock"></div></div>
+            <div class="btn-mock">Sign in</div>
+            <p class="link-note">Don't have an account?</p>
+          </div>
+        </div>
+      </div>
+      <div class="frame">
+        <div class="frame-head"><span>/team</span><span>card grid</span></div>
+        <div class="frame-body">
+          <div class="team-mock">
+            <h3>Team</h3>
+            <p class="sub">Meet the people behind the work.</p>
+            <div class="card-grid">
+              <div class="member-card"><div class="avatar">TT</div><h4>Triet Tu</h4><p class="role">Product Manager</p><p class="bio-pending">bio pending</p></div>
+              <div class="member-card"><div class="avatar">WL</div><h4>Winnie Lewis</h4><p class="role">Developer</p><p class="bio-pending">bio pending</p></div>
+              <div class="member-card"><div class="avatar">MF</div><h4>Mihindu Fernando</h4><p class="role">Developer</p><p class="bio-pending">bio pending</p></div>
+              <div class="member-card"><div class="avatar">KK</div><h4>Kareem Khleifat</h4><p class="role">Business Analyst</p><p class="bio-pending">bio pending</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Team card — edge cases</h2>
+    <p class="lead">Three states the card needs to hold up under. The first two already work; the third is the gap this review found — nothing in the current build renders a member without a photo.</p>
+    <div class="gallery">
+
+      <div class="gallery-item">
+        <div class="gallery-label"><span>Normal</span><span class="tag built">Built</span></div>
+        <div class="card-lg">
+          <div class="avatar-lg">WL</div>
+          <h4>Winnie Lewis</h4>
+          <p class="role">Developer</p>
+          <p class="blurb">Short bio, fits without truncation.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-label"><span>Long blurb</span><span class="tag built">Built</span></div>
+        <div class="card-lg">
+          <div class="avatar-lg">KK</div>
+          <h4>Kareem Khleifat</h4>
+          <p class="role">Business Analyst</p>
+          <p class="blurb clamped">Example only — demonstrates the 3-line clamp. Past roughly 140 characters the card truncates and shows a "…more" toggle so cards don't grow unevenly down the row.</p>
+          <span class="more-link">…more</span>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-label"><span>Missing photo</span><span class="tag proposed">Proposed</span></div>
+        <div class="card-lg proposed">
+          <div class="avatar-lg empty">?</div>
+          <h4>Member Name</h4>
+          <p class="role">Role</p>
+          <p class="blurb">Initials on a tinted brand circle already used for loaded photos — same shape, same ring, so a missing photo never looks broken, just unset.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Findings for the BA meeting</h2>
+    <p class="lead">Surfaced while reviewing the live build against this mockup — worth confirming before the requirements doc is finalized.</p>
+    <div class="findings">
+      <div class="finding">
+        <span class="tag proposed">Flag</span>
+        <div>
+          <h4>Missing-photo state is undefined</h4>
+          <p>The current card renders <span class="mono">&lt;img src={member.image}&gt;</span> with no fallback. Proposing the initials-circle treatment shown above — reuses the existing avatar ring, no new asset needed.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <span class="tag proposed">Flag</span>
+        <div>
+          <h4>Sign-in field is labeled "Username"</h4>
+          <p>The input still takes an email address (type <span class="mono">email</span>, validated as one) — the label just says "Username." Worth confirming with Kareem whether the field itself is changing, or the label should read "Email."</p>
+        </div>
+      </div>
+      <div class="finding">
+        <span class="tag proposed">Flag</span>
+        <div>
+          <h4>"Create account" link only appears after a failed attempt</h4>
+          <p>A first-time visitor who hasn't tried signing in yet has no way to find the sign-up page from this screen. Worth confirming this is intentional.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <span class="tag proposed">Flag</span>
+        <div>
+          <h4>"Triet Tan" should read "Triet Tu"</h4>
+          <p>Placeholder data has a typo in the PM's surname — content fix, not a design one, flagging here so it isn't lost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="cta">
+    <h2>Status against the card checklist</h2>
+    <p>Login and team page mockups are represented above, built against the shared token set so the two stay visually consistent by construction. Sharing this with Kareem is the next step — his sign-off is what moves the design card and unblocks the two edge-case findings above from being just observations.</p>
+    <div class="checklist">
+      <span>[x] Login page mockup complete</span>
+      <span>[x] Team page mockup complete</span>
+      <span>[x] Visual consistency between the two checked</span>
+      <span>[ ] Design shared with BA for validation — send this page to Kareem</span>
+      <span>[ ] Document updated — copy findings above into Master-Document-EXAMPLE.docx</span>
+    </div>
+  </footer>
+
+</div>
