@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -22,8 +22,6 @@ export default function SignInPage() {
     resolver: zodResolver(loginSchema),
   })
 
-  const [signInAttempted, setSignInAttempted] = useState(false)
-
   useEffect(() => {
     if (!loading && user) {
       router.replace('/dashboard')
@@ -40,7 +38,6 @@ export default function SignInPage() {
   if (loading) return <FullPageSpinner />
 
   const onSubmit = async (data: LoginInput) => {
-    setSignInAttempted(true)
     try {
       await signInWithEmail(data.email, data.password)
       toast.success('Signed in successfully')
@@ -65,10 +62,10 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 rounded-xl border border-transparent bg-[#292D68] p-6 shadow-none">
       <div className="space-y-1 text-left">
-        <h1 className="text-2xl font-bold tracking-tight text-[#292D68]">Welcome back</h1>
-        <p className="text-sm text-zinc-500">Sign in to view your team</p>
+        <h1 className="text-2xl font-bold tracking-tight text-[#9296e6]">Welcome back</h1>
+        <p className="text-sm text-[#9296e6]">Sign in to view your team</p>
       </div>
 
       <button
@@ -108,7 +105,7 @@ export default function SignInPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1.5">
-          <label htmlFor="email" className="text-sm font-medium font-bold text-[#292D68]">
+          <label htmlFor="email" className="text-sm font-medium font-bold text-[#9296e6]">
             Username
           </label>
           <input
@@ -117,8 +114,7 @@ export default function SignInPage() {
             autoComplete="email"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? 'email-error' : undefined}
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-500 focus:outline-none aria-invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-900"
-            placeholder="you@example.com"
+            className="w-full rounded-md border border-[#33355c] bg-[#131427] px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-zinc-500 focus:outline-none aria-invalid:border-red-500 text-white"
             {...register('email')}
           />
           {errors.email && (
@@ -130,7 +126,7 @@ export default function SignInPage() {
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label htmlFor="password" className="text-sm font-medium font-bold text-[#292D68]">
+            <label htmlFor="password" className="text-sm font-medium font-bold text-[#9296e6]">
               Password
             </label>
           </div>
@@ -140,8 +136,7 @@ export default function SignInPage() {
             autoComplete="current-password"
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? 'password-error' : undefined}
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-500 focus:outline-none aria-invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-900"
-            placeholder="••••••••"
+            className="w-full rounded-md border border-[#33355c] bg-[#131427] px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-zinc-500 focus:outline-none aria-invalid:border-red-500 text-white"
             {...register('password')}
           />
           {errors.password && (
@@ -153,24 +148,18 @@ export default function SignInPage() {
 
         <button
           type="submit"
-          onClick={() => setSignInAttempted(true)}
           disabled={isSubmitting}
-          className="w-full rounded-md bg-[#222468] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#1a1a4d] disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full rounded-md bg-[#9296e6] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#7f83d8] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
 
-      {signInAttempted && (
-        <p className="text-center text-sm text-zinc-500">
-          <Link
-            href="/auth/signup"
-            className="font-medium text-[#222468] hover:underline"
-          >
-            Don&apos;t have an account?
-          </Link>
-        </p>
-      )}
+      <p className="text-center text-sm text-zinc-500">
+        <Link href="/auth/signup" className="font-medium text-[#9296e6] hover:text-[#7f83d8] hover:underline">
+          Don&apos;t have an account?
+        </Link>
+      </p>
     </div>
   )
 }
