@@ -5,7 +5,7 @@ import { useState } from 'react'
 const teamMembers = [
 	{
 		name: 'Triet Tu',
-		role: 'Product Manager',
+		role: 'Program Manager',
 		image: '/images/team/TT.jpg',
 		blurb: "Triet is the PM for the team. He's currently studying a Bachelor of IT while working at Dan Murphy's and ITHERO. Based in Melbourne's west, he's a fan of party games and enjoys catching up with friends.",
 	},
