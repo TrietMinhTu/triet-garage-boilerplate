@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config' //added configDefaults
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
@@ -8,6 +8,13 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./tests/setup.ts'],
+
+    // Ignore Playwright E2E tests when Vitest runs
+    exclude: [
+      ...configDefaults.exclude,
+      'tests/s1-tests/**',
+    ],
+
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
