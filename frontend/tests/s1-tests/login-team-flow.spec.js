@@ -40,14 +40,24 @@ test.describe('Bootstrap Restyling - Login to Team Page Flow', () => {
     // 5. Confirm successful redirect away from sign-in
     await expect(page).not.toHaveURL(/\/auth\/signin/)
 
+    console.log('Current URL:', page.url())
+    console.log('Page text:', await page.locator('body').innerText())
+
     // 6. Confirm the Team page is displayed
     await expect(
-      page.getByText(/team 47|fieldcapture|team a/i).first()
+      page.getByRole('heading', { name: 'Team' })
+    ).toBeVisible()
+
+    await expect(
+      page.getByText(/meet the people behind the work/i)
     ).toBeVisible()
 
     // 7. Confirm team-member content is present
     await expect(page.getByText(/triet tu/i)).toBeVisible()
     await expect(page.getByText(/winnie lewis/i)).toBeVisible()
+    await expect(page.getByText(/mihindukulasuriya fernando/i)).toBeVisible()
+    await expect(page.getByText(/kareem khleifat/i)).toBeVisible()
+    await expect(page.getByText(/michael fajardo/i)).toBeVisible()
 
     // 8. Confirm developer/role information is displayed
     await expect(

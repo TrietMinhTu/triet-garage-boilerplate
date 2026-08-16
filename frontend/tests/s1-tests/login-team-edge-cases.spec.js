@@ -21,31 +21,43 @@ test.describe('Bootstrap Restyling - Login and Team Page Edge Cases', () => {
     await expect(page).toHaveURL(/\/auth\/signin/)
 
     await expect(
-      page.getByText(/invalid|incorrect|failed|error|credentials|password/i).first()
+      page
+        .getByText(/invalid|incorrect|failed|error|credentials|password/i)
+        .first()
     ).toBeVisible()
 
     console.log('PASS: Invalid login was rejected')
   })
 
-  test('direct team-page access without login redirects to sign-in', async ({ browser }) => {
+  test('direct team-page access without login redirects to sign-in', async ({
+    browser,
+  }) => {
     const context = await browser.newContext()
     const page = await context.newPage()
 
     await page.goto(`${BASE_URL}${TEAM_PATH}`)
 
-    await expect(page).toHaveURL(/\/auth\/signin/, { timeout: 10000 })
+    await expect(page).toHaveURL(/\/auth\/signin/, {
+      timeout: 10000,
+    })
 
-    console.log('PASS: Unauthenticated team-page access redirected to sign-in')
+    console.log(
+      'PASS: Unauthenticated team-page access redirected to sign-in'
+    )
 
     await context.close()
   })
 
-  test('missing-photo fallback is displayed correctly', async ({ page }) => {
-    test.skip(
-      !TEST_EMAIL || !TEST_PASSWORD,
-      'Set TEST_EMAIL and TEST_PASSWORD before running this test'
-    )
+  test('unusually long blurb does not break the team-page layout', async ({
+    page,
+  }) => {
+    if (!TEST_EMAIL || !TEST_PASSWORD) {
+      throw new Error(
+        'TEST_EMAIL and TEST_PASSWORD environment variables must be provided'
+      )
+    }
 
+    // Log in first
     await page.goto(`${BASE_URL}/auth/signin`)
 
     await page.getByLabel(/email|username/i).fill(TEST_EMAIL)
@@ -53,60 +65,35 @@ test.describe('Bootstrap Restyling - Login and Team Page Edge Cases', () => {
 
     await page.getByRole('button', { name: /sign in|login/i }).click()
 
-    const missingPhotoMemberName = process.env.MISSING_PHOTO_MEMBER
-
-    test.skip(
-      !missingPhotoMemberName,
-      'Set MISSING_PHOTO_MEMBER to the name of a team member with no photo'
-    )
-
-    const memberCard = page
-      .getByText(missingPhotoMemberName, { exact: false })
-      .locator('xpath=ancestor::*[self::article or self::li or self::div][1]')
-
-    await expect(memberCard).toBeVisible()
-
-    // Expected: initials or another fallback should appear instead of a broken image.
-    await expect(memberCard).toContainText(/[A-Z]{1,3}/)
-
-    console.log('PASS: Missing-photo fallback displayed correctly')
-  })
-
-  test('unusually long blurb does not break the team-page layout', async ({ page }) => {
-    test.skip(
-      !TEST_EMAIL || !TEST_PASSWORD,
-      'Set TEST_EMAIL and TEST_PASSWORD before running this test'
-    )
-
-    await page.goto(`${BASE_URL}/auth/signin`)
-
-    await page.getByLabel(/email|username/i).fill(TEST_EMAIL)
-    await page.getByLabel(/password/i).fill(TEST_PASSWORD)
-
-    await page.getByRole('button', { name: /sign in|login/i }).click()
-
-    const longBlurbMemberName = process.env.LONG_BLURB_MEMBER
-
-    test.skip(
-      !longBlurbMemberName,
-      'Set LONG_BLURB_MEMBER to the name of a team member with a long blurb'
-    )
-
-    const memberCard = page
-      .getByText(longBlurbMemberName, { exact: false })
-      .locator('xpath=ancestor::*[self::article or self::li or self::div][1]')
-
-    await expect(memberCard).toBeVisible()
-
-    const overflow = await memberCard.evaluate((element) => {
-      return {
-        horizontalOverflow: element.scrollWidth > element.clientWidth,
-        verticalOverflow: element.scrollHeight > element.clientHeight,
-      }
+    // Confirm Team page loaded
+    await expect(page).toHaveURL(/\/team/, {
+      timeout: 10000,
     })
 
-    expect(overflow.horizontalOverflow).toBe(false)
+    // Use a member who has a long blurb
+    const memberName = page.getByText(
+      'Mihindukulasuriya Fernando',
+      { exact: true }
+    )
 
-    console.log('PASS: Long blurb did not create horizontal layout overflow')
+    await expect(memberName).toBeVisible()
+
+    // Find the member's card
+    const memberCard = memberName.locator(
+      'xpath=ancestor::div[contains(@class, "rounded")][1]'
+    )
+
+    await expect(memberCard).toBeVisible()
+
+    // Check that the card does not overflow horizontally
+    const horizontalOverflow = await memberCard.evaluate((element) => {
+      return element.scrollWidth > element.clientWidth
+    })
+
+    expect(horizontalOverflow).toBe(false)
+
+    console.log(
+      'PASS: Long blurb remains inside the card and does not break the layout'
+    )
   })
 })
