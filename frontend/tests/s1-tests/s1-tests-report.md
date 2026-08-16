@@ -200,7 +200,7 @@ No additional bugs were found during the final invalid-login, unauthenticated-ac
 * Invalid login — PASS
 * Direct Team page access without authentication — PASS
 * Long-blurb layout — PASS
-* team member photos fallback — PASS
+* team member photos fallback — PASS (manual check only, not covered by automated script)
 
 ---
 
